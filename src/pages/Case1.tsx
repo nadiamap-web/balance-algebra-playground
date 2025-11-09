@@ -106,14 +106,14 @@ const Case1 = () => {
                 id="apple"
                 value={1}
                 image={appleImage}
-                label="Apel (Konstanta)"
+                label="Apel"
                 onDragStart={() => {}}
               />
               <DraggableObject
                 id="bag"
                 value={3}
                 image={bagImage}
-                label="Kantong (Variabel)"
+                label="Kantong"
                 onDragStart={() => {}}
               />
             </div>
@@ -135,8 +135,8 @@ const Case1 = () => {
           <h3 className="text-lg font-bold mb-2 text-foreground">Petunjuk:</h3>
           <ul className="list-disc list-inside space-y-1 text-foreground">
             <li>Seret objek atau angka ke mangkuk timbangan</li>
-            <li>Apel bernilai 1 (konstanta a)</li>
-            <li>Kantong hitam bernilai 3 (variabel x)</li>
+            <li>Apel bernilai 1</li>
+            <li>Kantong hitam bernilai 3</li>
             <li>Coba seimbangkan kedua sisi timbangan!</li>
           </ul>
         </div>

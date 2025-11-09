@@ -101,7 +101,7 @@ const Case2 = () => {
                 id="cardboard"
                 value={5}
                 image={cardboardImage}
-                label="Kardus (Variabel)"
+                label="Kardus"
                 onDragStart={() => {}}
               />
               <DraggableObject
@@ -128,8 +128,8 @@ const Case2 = () => {
           <h3 className="text-lg font-bold mb-2 text-foreground">Petunjuk:</h3>
           <ul className="list-disc list-inside space-y-1 text-foreground">
             <li>Seret objek atau angka ke mangkuk timbangan</li>
-            <li>Kardus coklat bernilai 5 (variabel x dengan koefisien a)</li>
-            <li>Anak timbangan bernilai 1 (konstanta)</li>
+            <li>Kardus coklat bernilai 5</li>
+            <li>Anak timbangan bernilai 1</li>
             <li>Coba seimbangkan kedua sisi timbangan!</li>
           </ul>
         </div>

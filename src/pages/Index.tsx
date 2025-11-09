@@ -19,16 +19,10 @@ const Index = () => {
           <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-4">
             Timbangan Persamaan Linear
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Media pembelajaran interaktif untuk memahami konsep Persamaan Linear Satu Variabel (PLSV) 
             menggunakan analogi timbangan ohaus dua lengan
           </p>
-          <div className="flex gap-4 justify-center">
-            <Button size="lg" className="gap-2" onClick={() => navigate("/case1")}>
-              <BookOpen className="w-5 h-5" />
-              Mulai Belajar
-            </Button>
-          </div>
         </div>
 
         {/* Cases Grid */}
