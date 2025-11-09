@@ -62,32 +62,29 @@ export const DroppableArea = ({ items, onDrop, onRemove, side }: DroppableAreaPr
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={cn(
-        "min-h-[120px] transition-all duration-200",
-        isDragOver && "ring-4 ring-primary ring-opacity-50"
+        "w-full h-full flex flex-wrap gap-2 items-end justify-center content-end transition-all duration-200",
+        isDragOver && "ring-2 ring-primary ring-opacity-50 rounded-lg"
       )}
     >
-      <div className="flex flex-wrap gap-2 items-center justify-center">
-        {items.map((item, index) => (
-          <div key={`${item.id}-${index}`} className="relative group">
-            {item.type === "object" ? (
-              <div className="flex flex-col items-center gap-1 p-2 bg-card/80 rounded-lg shadow-sm">
-                <img src={item.image} alt={item.label} className="w-12 h-12 object-contain" />
-                <span className="text-xs font-medium">{item.label}</span>
-              </div>
-            ) : (
-              <div className="w-12 h-12 flex items-center justify-center bg-primary text-primary-foreground rounded-lg shadow-md font-bold text-xl">
-                {item.value}
-              </div>
-            )}
-            <button
-              onClick={() => onRemove(index)}
-              className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hover:scale-110"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        ))}
-      </div>
+      {items.map((item, index) => (
+        <div key={`${item.id}-${index}`} className="relative group">
+          {item.type === "object" ? (
+            <div className="w-14 h-14 p-1 bg-transparent rounded-lg flex items-center justify-center">
+              <img src={item.image} alt={item.label || ""} className="w-full h-full object-contain" />
+            </div>
+          ) : (
+            <div className="w-12 h-12 flex items-center justify-center bg-primary text-primary-foreground rounded-lg shadow-md font-bold text-xl">
+              {item.value}
+            </div>
+          )}
+          <button
+            onClick={() => onRemove(index)}
+            className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-destructive-foreground rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hover:scale-110 z-20"
+          >
+            <X className="w-3 h-3" />
+          </button>
+        </div>
+      ))}
     </div>
   );
 };
