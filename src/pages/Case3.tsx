@@ -19,7 +19,7 @@ const Case3 = () => {
   const [dialogType, setDialogType] = useState<'success' | 'error' | null>(null);
 
   const packagedMeatImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='18' y='28' width='64' height='44' rx='6' fill='%23f7f1f0' stroke='%23e1b7b9' stroke-width='2'/%3E%3Cellipse cx='50' cy='50' rx='22' ry='16' fill='%23e8505b'/%3E%3Cpath d='M28 40 Q40 30 50 40 Q60 30 72 40' fill='%23f7b5b9' opacity='0.6'/%3E%3Ctext x='50' y='72' font-size='10' text-anchor='middle' fill='%23333' font-weight='700'%3E%F0%9F%A5%A3%3C/text%3E%3C/svg%3E";
-  const redBeefImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M30,45 C38,28 62,28 70,45 C75,55 66,68 50,72 C34,68 25,55 30,45 Z' fill='%23c0392b' stroke='%23832b27' stroke-width='1'/%3E%3Cpath d='M38,46 C45,40 55,40 62,46' stroke='%23e74c3c' stroke-width='2' fill='none' opacity='0.8'/%3E%3Cellipse cx='50' cy='54' rx='10' ry='6' fill='%23fff' opacity='0.18'/%3E%3C/text%3E%3C/svg%3E";
+  const redBeefImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M30,45 C38,28 62,28 70,45 C75,55 66,68 50,72 C34,68 25,55 30,45 Z' fill='%23c0392b' stroke='%23832b27' stroke-width='1'/%3E%3Cpath d='M38,46 C45,40 55,40 62,46' stroke='%23e74c3c' stroke-width='2' fill='none' opacity='0.8'/%3E%3Cellipse cx='50' cy='54' rx='10' ry='6' fill='%23fff' opacity='0.18'/%3E%3C/svg%3E";
 
   const calculateWeight = (items: DroppedItem[]) => {
     return items.reduce((sum, item) => sum + item.value, 0);
