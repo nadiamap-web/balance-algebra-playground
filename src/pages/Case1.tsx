@@ -12,9 +12,14 @@ const Case1 = () => {
   const navigate = useNavigate();
   const [leftItems, setLeftItems] = useState<DroppedItem[]>([]);
   const [rightItems, setRightItems] = useState<DroppedItem[]>([]);
+  const [appleGuess, setAppleGuess] = useState<number | ''>('');
+  const [bagGuess, setBagGuess] = useState<number | ''>('');
+  const [guessResult, setGuessResult] = useState<string | null>(null);
+  const [showDialog, setShowDialog] = useState(false);
+  const [dialogType, setDialogType] = useState<'success' | 'error' | null>(null);
 
-  const appleImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='55' r='35' fill='%23e74c3c'/%3E%3Cellipse cx='50' cy='55' rx='35' ry='30' fill='%23c0392b'/%3E%3Crect x='48' y='20' width='4' height='15' fill='%238b4513' rx='2'/%3E%3Cellipse cx='45' cy='25' rx='8' ry='4' fill='%2327ae60' transform='rotate(-20 45 25)'/%3E%3C/svg%3E";
-  const bagImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20,30 L25,90 L75,90 L80,30 Z' fill='%23654321'/%3E%3Cpath d='M20,30 L30,25 L70,25 L80,30 Z' fill='%238B6914'/%3E%3Crect x='15' y='28' width='70' height='5' fill='%238B6914' rx='2'/%3E%3C/svg%3E";
+  const appleImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='32' fill='%23e53935'/%3E%3Cpath d='M60 20c0 6-6 10-10 10s-8-4-10-10c0 0 6-6 12-6s8 6 8 6z' fill='%234caf50'/%3E%3Ccircle cx='58' cy='42' r='6' fill='%23fff' opacity='0.15'/%3E%3C/svg%3E";
+  const bagImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25 30 L30 20 H70 L75 30 L75 78 C75 83 70 88 65 88 H35 C30 88 25 83 25 78 Z' fill='%23222222'/%3E%3Cpath d='M30 30 L70 30 L70 35 C70 40 60 45 50 45 C40 45 30 40 30 35 Z' fill='%23707070' opacity='0.12'/%3E%3Cpath d='M40 20 C42 14 58 14 60 20' stroke='%23707070' stroke-width='3' fill='none'/%3E%3Ccircle cx='60' cy='60' r='10' fill='%234a4a4a' opacity='0.08'/%3E%3C/svg%3E";
 
   const calculateWeight = (items: DroppedItem[]) => {
     return items.reduce((sum, item) => sum + item.value, 0);
@@ -52,6 +57,34 @@ const Case1 = () => {
   const handleReset = () => {
     setLeftItems([]);
     setRightItems([]);
+    setAppleGuess('');
+    setBagGuess('');
+    setGuessResult(null);
+  };
+
+  const computeWeightWithGuesses = (items: DroppedItem[]) => {
+    return items.reduce((sum, item) => {
+      if (item.type === 'object') {
+        if (item.id === 'apple') return sum + (typeof appleGuess === 'number' ? appleGuess : 0);
+        if (item.id === 'bag') return sum + (typeof bagGuess === 'number' ? bagGuess : 0);
+        return sum;
+      }
+      return sum + item.value;
+    }, 0);
+  };
+
+  const checkGuesses = () => {
+    // Validate against known correct values for Case 1
+    const expectedApple = 1;
+    const expectedBag = 3;
+    const appleCorrect = typeof appleGuess === 'number' && appleGuess === expectedApple;
+    const bagCorrect = typeof bagGuess === 'number' && bagGuess === expectedBag;
+    const correct = appleCorrect && bagCorrect;
+    setGuessResult(correct ? 'Benar — tebakan nilai objek sudah benar' : 'Salah — nilai objek tidak cocok');
+    setDialogType(correct ? 'success' : 'error');
+    setShowDialog(true);
+    // auto hide
+    setTimeout(() => setShowDialog(false), 2200);
   };
 
   return (
@@ -130,13 +163,65 @@ const Case1 = () => {
           </div>
         </div>
 
+        {/* Tebak Nilai Objek */}
+        <div className="mb-6 bg-card p-4 rounded-lg border-2 border-border flex items-end gap-4">
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Apel:</label>
+            <input type="number" value={appleGuess === '' ? '' : appleGuess} onChange={(e) => setAppleGuess(e.target.value === '' ? '' : Number(e.target.value))} className="w-20 p-1 rounded border" />
+          </div>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Kantong:</label>
+            <input type="number" value={bagGuess === '' ? '' : bagGuess} onChange={(e) => setBagGuess(e.target.value === '' ? '' : Number(e.target.value))} className="w-20 p-1 rounded border" />
+          </div>
+          <button onClick={checkGuesses} className="ml-2 px-3 py-1 rounded bg-primary text-primary-foreground">Cek Tebakan</button>
+          {guessResult && <div className="text-sm font-medium">{guessResult}</div>}
+        </div>
+
+        {/* Animated Result Dialog */}
+        {showDialog && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-auto">
+            <div className="absolute inset-0 bg-black/40" />
+            <div className={`relative z-10 flex flex-col items-center space-y-3 px-6 py-8 rounded-xl shadow-xl transform transition-all duration-500 ${dialogType === 'success' ? 'bg-green-50 scale-105' : 'bg-red-50 scale-95'}`}>
+              {/* Decorative animated elements */}
+              {dialogType === 'success' ? (
+                <div className="w-40 h-24 relative flex items-center justify-center">
+                  <div className="text-6xl animate-bounce">🎉</div>
+                  <div className="absolute -top-4 left-4 flex gap-2">
+                    <span className="w-2 h-2 bg-yellow-400 rounded-full animate-ping" />
+                    <span className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '80ms' }} />
+                    <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '160ms' }} />
+                  </div>
+                  <div className="absolute -top-4 right-4 flex gap-2">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: '40ms' }} />
+                    <span className="w-2 h-2 bg-purple-400 rounded-full animate-ping" />
+                  </div>
+                </div>
+              ) : (
+                <div className="w-40 h-24 flex flex-col items-center justify-center">
+                  <div className="text-6xl animate-pulse">❌</div>
+                </div>
+              )}
+
+              <div className="text-lg font-bold text-foreground">{guessResult}</div>
+              <div className="flex gap-2 mt-2">
+                <span className="text-sm text-muted-foreground">Tutup otomatis...</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-xs animate-bounce">•</span>
+                  <span className="text-xs animate-bounce" style={{ animationDelay: '100ms' }}>•</span>
+                  <span className="text-xs animate-bounce" style={{ animationDelay: '200ms' }}>•</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Instructions */}
         <div className="mt-8 bg-primary/10 p-6 rounded-xl border-2 border-primary/20">
           <h3 className="text-lg font-bold mb-2 text-foreground">Petunjuk:</h3>
           <ul className="list-disc list-inside space-y-1 text-foreground">
             <li>Seret objek atau angka ke mangkuk timbangan</li>
-            <li>Apel bernilai 1</li>
-            <li>Kantong hitam bernilai 3</li>
+            {/* <li>Apel bernilai 1</li>
+            <li>Kantong hitam bernilai 3</li> */}
             <li>Coba seimbangkan kedua sisi timbangan!</li>
           </ul>
         </div>

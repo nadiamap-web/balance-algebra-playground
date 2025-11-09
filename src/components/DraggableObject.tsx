@@ -47,8 +47,9 @@ export const DraggableObject = ({
       <div className="flex flex-col items-center gap-2 p-3 bg-card rounded-lg shadow-md border-2 border-border hover:border-primary transition-colors">
         <img src={image} alt={label} className="w-16 h-16 object-contain" />
         <span className="text-sm font-medium text-foreground">{label}</span>
-        <span className="text-xs text-muted-foreground">Nilai: {value}</span>
+        {/* <span className="text-xs text-muted-foreground">Nilai: {value}</span> */}
       </div>
     </div>
   );
 };
+  

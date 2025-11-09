@@ -62,18 +62,18 @@ export const DroppableArea = ({ items, onDrop, onRemove, side }: DroppableAreaPr
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={cn(
-        "w-full h-full flex flex-wrap gap-2 items-end justify-center content-end transition-all duration-200",
+        "w-full h-full flex flex-wrap gap-1 items-end justify-center content-end transition-all duration-200",
         isDragOver && "ring-2 ring-primary ring-opacity-50 rounded-lg"
       )}
     >
       {items.map((item, index) => (
         <div key={`${item.id}-${index}`} className="relative group">
           {item.type === "object" ? (
-            <div className="w-14 h-14 p-1 bg-transparent rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 p-0.5 bg-transparent rounded-md flex items-center justify-center">
               <img src={item.image} alt={item.label || ""} className="w-full h-full object-contain" />
             </div>
           ) : (
-            <div className="w-12 h-12 flex items-center justify-center bg-primary text-primary-foreground rounded-lg shadow-md font-bold text-xl">
+            <div className="w-10 h-10 flex items-center justify-center bg-primary text-primary-foreground rounded-md shadow-md font-bold text-base">
               {item.value}
             </div>
           )}

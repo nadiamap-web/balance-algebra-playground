@@ -12,9 +12,14 @@ const Case2 = () => {
   const navigate = useNavigate();
   const [leftItems, setLeftItems] = useState<DroppedItem[]>([]);
   const [rightItems, setRightItems] = useState<DroppedItem[]>([]);
+  const [cardboardGuess, setCardboardGuess] = useState<number | ''>('');
+  const [weightGuess, setWeightGuess] = useState<number | ''>('');
+  const [guessResult, setGuessResult] = useState<string | null>(null);
+  const [showDialog, setShowDialog] = useState(false);
+  const [dialogType, setDialogType] = useState<'success' | 'error' | null>(null);
 
-  const cardboardImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' fill='%23CD853F' rx='4'/%3E%3Crect x='25' y='25' width='50' height='50' fill='%23DEB887' rx='3'/%3E%3Cline x1='30' y1='50' x2='70' y2='50' stroke='%23A0522D' stroke-width='2'/%3E%3Cline x1='50' y1='30' x2='50' y2='70' stroke='%23A0522D' stroke-width='2'/%3E%3C/svg%3E";
-  const weightImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cellipse cx='50' cy='55' rx='35' ry='30' fill='%23FF8C42'/%3E%3Cellipse cx='50' cy='50' rx='30' ry='25' fill='%23FFB366'/%3E%3Cellipse cx='50' cy='35' rx='15' ry='12' fill='%23FFDAB3'/%3E%3Ctext x='50' y='58' text-anchor='middle' font-size='20' font-weight='bold' fill='%23000'%3E1kg%3C/text%3E%3C/svg%3E";
+  const cardboardImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='15' y='25' width='70' height='50' fill='%23D2A679' rx='6' stroke='%23A5693F' stroke-width='2'/%3E%3Crect x='20' y='30' width='60' height='40' fill='%23C6863B' rx='4'/%3E%3Cpath d='M20 30 L80 30 L50 10 Z' fill='%23B97A2B' opacity='0.85'/%3E%3Cline x1='30' y1='40' x2='70' y2='40' stroke='%238B5A2B' stroke-width='2' stroke-linecap='round'/%3E%3Ctext x='50' y='60' font-size='12' text-anchor='middle' fill='%236B3F21' font-weight='700'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E";
+  const weightImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cellipse cx='50' cy='60' rx='30' ry='18' fill='%232D3748'/%3E%3Cellipse cx='50' cy='54' rx='24' ry='14' fill='%234A5568'/%3E%3Crect x='38' y='28' width='24' height='12' rx='6' fill='%232D3748'/%3E%3Ccircle cx='50' cy='52' r='4' fill='%23EDF2F7'/%3E%3Ctext x='50' y='64' font-size='10' text-anchor='middle' fill='%23fff' font-weight='700'%3E1kg%3C/text%3E%3C/svg%3E";
 
   const calculateWeight = (items: DroppedItem[]) => {
     return items.reduce((sum, item) => sum + item.value, 0);
@@ -51,6 +56,33 @@ const Case2 = () => {
   const handleReset = () => {
     setLeftItems([]);
     setRightItems([]);
+    setCardboardGuess('');
+    setWeightGuess('');
+    setGuessResult(null);
+  };
+
+  const computeWeightWithGuesses = (items: DroppedItem[]) => {
+    return items.reduce((sum, item) => {
+      if (item.type === 'object') {
+        if (item.id === 'cardboard') return sum + (typeof cardboardGuess === 'number' ? cardboardGuess : 0);
+        if (item.id === 'weight') return sum + (typeof weightGuess === 'number' ? weightGuess : 0);
+        return sum;
+      }
+      return sum + item.value;
+    }, 0);
+  };
+
+  const checkGuesses = () => {
+    // Validate against known correct values for Case 2
+    const expectedCardboard = 5;
+    const expectedWeight = 1;
+    const cardboardCorrect = typeof cardboardGuess === 'number' && cardboardGuess === expectedCardboard;
+    const weightCorrect = typeof weightGuess === 'number' && weightGuess === expectedWeight;
+    const correct = cardboardCorrect && weightCorrect;
+    setGuessResult(correct ? 'Benar — tebakan nilai objek sudah benar' : 'Salah — nilai objek tidak cocok');
+    setDialogType(correct ? 'success' : 'error');
+    setShowDialog(true);
+    setTimeout(() => setShowDialog(false), 2200);
   };
 
   return (
@@ -92,6 +124,41 @@ const Case2 = () => {
             />
           </BalanceScale>
         </div>
+
+        {/* Tebak Nilai Objek */}
+        <div className="mb-6 bg-card p-4 rounded-lg border-2 border-border flex items-end gap-4 col-span-2">
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Kardus:</label>
+            <input type="number" value={cardboardGuess === '' ? '' : cardboardGuess} onChange={(e) => setCardboardGuess(e.target.value === '' ? '' : Number(e.target.value))} className="w-20 p-1 rounded border" />
+          </div>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Anak Timbangan:</label>
+            <input type="number" value={weightGuess === '' ? '' : weightGuess} onChange={(e) => setWeightGuess(e.target.value === '' ? '' : Number(e.target.value))} className="w-20 p-1 rounded border" />
+          </div>
+          <button onClick={checkGuesses} className="ml-2 px-3 py-1 rounded bg-primary text-primary-foreground">Cek Tebakan</button>
+          {guessResult && <div className="text-sm font-medium">{guessResult}</div>}
+        </div>
+
+        {/* Animated Result Dialog */}
+        {showDialog && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-auto">
+            <div className="absolute inset-0 bg-black/40" />
+            <div className={`relative z-10 flex flex-col items-center space-y-3 px-6 py-8 rounded-xl shadow-xl transform transition-all duration-300 ${dialogType === 'success' ? 'bg-green-50 scale-100' : 'bg-red-50 scale-100'}`}>
+              <div className="text-5xl">
+                {dialogType === 'success' ? '🎉' : '❌'}
+              </div>
+              <div className="text-lg font-bold text-foreground">{guessResult}</div>
+              <div className="flex gap-2 mt-2">
+                <span className="text-sm text-muted-foreground">Tutup otomatis...</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-xs animate-bounce">•</span>
+                  <span className="text-xs animate-bounce" style={{ animationDelay: '100ms' }}>•</span>
+                  <span className="text-xs animate-bounce" style={{ animationDelay: '200ms' }}>•</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-card p-6 rounded-xl shadow-lg border-2 border-border">

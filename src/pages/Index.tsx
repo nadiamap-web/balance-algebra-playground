@@ -42,12 +42,12 @@ const Index = () => {
               </p>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-secondary rounded-full" />
-                  <span>Apel (Konstanta = 1)</span>
+                  {/* <div className="w-2 h-2 bg-secondary rounded-full" /> */}
+                  {/* <span>Apel (Konstanta = 1)</span> */}
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-secondary rounded-full" />
-                  <span>Kantong Hitam (Variabel = 3)</span>
+                  {/* <div className="w-2 h-2 bg-secondary rounded-full" /> */}
+                  {/* <span>Kantong Hitam (Variabel = 3)</span> */}
                 </div>
               </div>
             </CardContent>
@@ -68,12 +68,12 @@ const Index = () => {
               </p>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-secondary rounded-full" />
-                  <span>Kardus (Variabel = 5)</span>
+                  {/* <div className="w-2 h-2 bg-secondary rounded-full" /> */}
+                  {/* <span>Kardus (Variabel = 5)</span> */}
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-secondary rounded-full" />
-                  <span>Anak Timbangan (Konstanta = 1)</span>
+                  {/* <div className="w-2 h-2 bg-secondary rounded-full" /> */}
+                  {/* <span>Anak Timbangan (Konstanta = 1)</span> */}
                 </div>
               </div>
             </CardContent>
@@ -94,12 +94,12 @@ const Index = () => {
               </p>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-secondary rounded-full" />
-                  <span>Daging Kemasan (Variabel = 2)</span>
+                  {/* <div className="w-2 h-2 bg-secondary rounded-full" /> */}
+                  {/* <span>Daging Kemasan (Variabel = 2)</span> */}
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-secondary rounded-full" />
-                  <span>Daging Sapi (Konstanta = 1)</span>
+                  {/* <div className="w-2 h-2 bg-secondary rounded-full" /> */}
+                  {/* <span>Daging Sapi (Konstanta = 1)</span> */}
                 </div>
               </div>
             </CardContent>

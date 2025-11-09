@@ -12,9 +12,14 @@ const Case3 = () => {
   const navigate = useNavigate();
   const [leftItems, setLeftItems] = useState<DroppedItem[]>([]);
   const [rightItems, setRightItems] = useState<DroppedItem[]>([]);
+  const [packagedGuess, setPackagedGuess] = useState<number | ''>('');
+  const [beefGuess, setBeefGuess] = useState<number | ''>('');
+  const [guessResult, setGuessResult] = useState<string | null>(null);
+  const [showDialog, setShowDialog] = useState(false);
+  const [dialogType, setDialogType] = useState<'success' | 'error' | null>(null);
 
-  const packagedMeatImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='15' y='25' width='70' height='50' fill='%23333' rx='3'/%3E%3Crect x='20' y='30' width='60' height='40' fill='%23fff' rx='2'/%3E%3Cpath d='M25,35 Q30,45 35,35 Q40,50 45,35 Q50,45 55,35 Q60,50 65,35 Q70,45 75,35 L75,65 Q70,55 65,65 Q60,50 55,65 Q50,55 45,65 Q40,50 35,65 Q30,55 25,65 Z' fill='%23e8505b'/%3E%3Cpath d='M30,40 Q35,50 40,40 Q45,55 50,40 Q55,50 60,40 Q65,55 70,40' fill='%23f7b5b9' opacity='0.7'/%3E%3C/svg%3E";
-  const redBeefImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M30,40 Q35,30 45,35 Q55,30 60,35 Q70,30 75,45 Q75,60 65,65 Q55,70 45,65 Q35,70 25,60 Q20,50 30,40 Z' fill='%23c0392b'/%3E%3Cpath d='M35,45 Q40,40 45,43 Q50,40 55,45 Q60,42 63,50' fill='%23e74c3c' opacity='0.7'/%3E%3Cellipse cx='45' cy='50' rx='8' ry='5' fill='%23fff' opacity='0.3'/%3E%3C/svg%3E";
+  const packagedMeatImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='18' y='28' width='64' height='44' rx='6' fill='%23f7f1f0' stroke='%23e1b7b9' stroke-width='2'/%3E%3Cellipse cx='50' cy='50' rx='22' ry='16' fill='%23e8505b'/%3E%3Cpath d='M28 40 Q40 30 50 40 Q60 30 72 40' fill='%23f7b5b9' opacity='0.6'/%3E%3Ctext x='50' y='72' font-size='10' text-anchor='middle' fill='%23333' font-weight='700'%3E%F0%9F%A5%A3%3C/text%3E%3C/svg%3E";
+  const redBeefImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M30,45 C38,28 62,28 70,45 C75,55 66,68 50,72 C34,68 25,55 30,45 Z' fill='%23c0392b' stroke='%23832b27' stroke-width='1'/%3E%3Cpath d='M38,46 C45,40 55,40 62,46' stroke='%23e74c3c' stroke-width='2' fill='none' opacity='0.8'/%3E%3Cellipse cx='50' cy='54' rx='10' ry='6' fill='%23fff' opacity='0.18'/%3E%3C/text%3E%3C/svg%3E";
 
   const calculateWeight = (items: DroppedItem[]) => {
     return items.reduce((sum, item) => sum + item.value, 0);
@@ -51,6 +56,33 @@ const Case3 = () => {
   const handleReset = () => {
     setLeftItems([]);
     setRightItems([]);
+    setPackagedGuess('');
+    setBeefGuess('');
+    setGuessResult(null);
+  };
+
+  const computeWeightWithGuesses = (items: DroppedItem[]) => {
+    return items.reduce((sum, item) => {
+      if (item.type === 'object') {
+        if (item.id === 'packaged') return sum + (typeof packagedGuess === 'number' ? packagedGuess : 0);
+        if (item.id === 'beef') return sum + (typeof beefGuess === 'number' ? beefGuess : 0);
+        return sum;
+      }
+      return sum + item.value;
+    }, 0);
+  };
+
+  const checkGuesses = () => {
+    // Validate against known correct values for Case 3
+    const expectedPackaged = 2;
+    const expectedBeef = 1;
+    const packagedCorrect = typeof packagedGuess === 'number' && packagedGuess === expectedPackaged;
+    const beefCorrect = typeof beefGuess === 'number' && beefGuess === expectedBeef;
+    const correct = packagedCorrect && beefCorrect;
+    setGuessResult(correct ? 'Benar — tebakan nilai objek sudah benar' : 'Salah — nilai objek tidak cocok');
+    setDialogType(correct ? 'success' : 'error');
+    setShowDialog(true);
+    setTimeout(() => setShowDialog(false), 2200);
   };
 
   return (
@@ -93,6 +125,41 @@ const Case3 = () => {
           </BalanceScale>
         </div>
 
+        {/* Tebak Nilai Objek */}
+        <div className="mb-6 bg-card p-4 rounded-lg border-2 border-border flex items-end gap-4 col-span-2">
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Daging Kemasan:</label>
+            <input type="number" value={packagedGuess === '' ? '' : packagedGuess} onChange={(e) => setPackagedGuess(e.target.value === '' ? '' : Number(e.target.value))} className="w-20 p-1 rounded border" />
+          </div>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Daging Sapi:</label>
+            <input type="number" value={beefGuess === '' ? '' : beefGuess} onChange={(e) => setBeefGuess(e.target.value === '' ? '' : Number(e.target.value))} className="w-20 p-1 rounded border" />
+          </div>
+          <button onClick={checkGuesses} className="ml-2 px-3 py-1 rounded bg-primary text-primary-foreground">Cek Tebakan</button>
+          {guessResult && <div className="text-sm font-medium">{guessResult}</div>}
+        </div>
+
+        {/* Animated Result Dialog */}
+        {showDialog && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-auto">
+            <div className="absolute inset-0 bg-black/40" />
+            <div className={`relative z-10 flex flex-col items-center space-y-3 px-6 py-8 rounded-xl shadow-xl transform transition-all duration-300 ${dialogType === 'success' ? 'bg-green-50 scale-100' : 'bg-red-50 scale-100'}`}>
+              <div className="text-5xl">
+                {dialogType === 'success' ? '🎉' : '❌'}
+              </div>
+              <div className="text-lg font-bold text-foreground">{guessResult}</div>
+              <div className="flex gap-2 mt-2">
+                <span className="text-sm text-muted-foreground">Tutup otomatis...</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-xs animate-bounce">•</span>
+                  <span className="text-xs animate-bounce" style={{ animationDelay: '100ms' }}>•</span>
+                  <span className="text-xs animate-bounce" style={{ animationDelay: '200ms' }}>•</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-card p-6 rounded-xl shadow-lg border-2 border-border">
             <h3 className="text-xl font-bold mb-4 text-foreground">Objek</h3>
@@ -128,8 +195,8 @@ const Case3 = () => {
           <h3 className="text-lg font-bold mb-2 text-foreground">Petunjuk:</h3>
           <ul className="list-disc list-inside space-y-1 text-foreground">
             <li>Seret objek atau angka ke mangkuk timbangan</li>
-            <li>Daging kemasan bernilai 2</li>
-            <li>Daging sapi merah bernilai 1</li>
+            {/* <li>Daging kemasan bernilai 2</li>
+            <li>Daging sapi merah bernilai 1</li> */}
             <li>Coba seimbangkan kedua sisi timbangan!</li>
           </ul>
         </div>
