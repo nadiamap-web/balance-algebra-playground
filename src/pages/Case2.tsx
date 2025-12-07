@@ -18,7 +18,7 @@ const Case2 = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [dialogType, setDialogType] = useState<'success' | 'error' | null>(null);
 
-  const cardboardImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='15' y='25' width='70' height='50' fill='%23D2A679' rx='6' stroke='%23A5693F' stroke-width='2'/%3E%3Crect x='20' y='30' width='60' height='40' fill='%23C6863B' rx='4'/%3E%3Cpath d='M20 30 L80 30 L50 10 Z' fill='%23B97A2B' opacity='0.85'/%3E%3Cline x1='30' y1='40' x2='70' y2='40' stroke='%238B5A2B' stroke-width='2' stroke-linecap='round'/%3E%3Ctext x='50' y='60' font-size='12' text-anchor='middle' fill='%236B3F21' font-weight='700'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E";
+  const cardboardImage = "box.png ";
   const weightImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cellipse cx='50' cy='60' rx='30' ry='18' fill='%232D3748'/%3E%3Cellipse cx='50' cy='54' rx='24' ry='14' fill='%234A5568'/%3E%3Crect x='38' y='28' width='24' height='12' rx='6' fill='%232D3748'/%3E%3Ccircle cx='50' cy='52' r='4' fill='%23EDF2F7'/%3E%3Ctext x='50' y='64' font-size='10' text-anchor='middle' fill='%23fff' font-weight='700'%3E1kg%3C/text%3E%3C/svg%3E";
 
   const calculateWeight = (items: DroppedItem[]) => {

@@ -18,8 +18,8 @@ const Case1 = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [dialogType, setDialogType] = useState<'success' | 'error' | null>(null);
 
-  const appleImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='32' fill='%23e53935'/%3E%3Cpath d='M60 20c0 6-6 10-10 10s-8-4-10-10c0 0 6-6 12-6s8 6 8 6z' fill='%234caf50'/%3E%3Ccircle cx='58' cy='42' r='6' fill='%23fff' opacity='0.15'/%3E%3C/svg%3E";
-  const bagImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25 30 L30 20 H70 L75 30 L75 78 C75 83 70 88 65 88 H35 C30 88 25 83 25 78 Z' fill='%23222222'/%3E%3Cpath d='M30 30 L70 30 L70 35 C70 40 60 45 50 45 C40 45 30 40 30 35 Z' fill='%23707070' opacity='0.12'/%3E%3Cpath d='M40 20 C42 14 58 14 60 20' stroke='%23707070' stroke-width='3' fill='none'/%3E%3Ccircle cx='60' cy='60' r='10' fill='%234a4a4a' opacity='0.08'/%3E%3C/svg%3E";
+  const appleImage = '/apel.png'
+  const bagImage = '/bag.png'
 
   const calculateWeight = (items: DroppedItem[]) => {
     return items.reduce((sum, item) => sum + item.value, 0);

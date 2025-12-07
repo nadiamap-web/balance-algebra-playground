@@ -98,7 +98,7 @@ export const BalanceScale = ({ leftWeight, rightWeight, children }: BalanceScale
             {/* inner shine */}
             <div className="absolute inset-2 bg-gradient-to-b from-white/30 via-transparent to-transparent rounded-b-[45%] pointer-events-none" />
             {/* Left bowl content area - larger space */}
-            <div className="absolute inset-0 p-3 flex flex-wrap gap-1 items-end justify-center content-end pb-4 overflow-auto">
+            <div className="absolute inset-0 p-3 flex flex-wrap gap-1 items-end justify-center content-end pb-4">
               {children && (children as any)[0]}
             </div>
           </div>
@@ -114,7 +114,7 @@ export const BalanceScale = ({ leftWeight, rightWeight, children }: BalanceScale
              {/* inner shine */}
              <div className="absolute inset-2 bg-gradient-to-b from-white/30 via-transparent to-transparent rounded-b-[45%] pointer-events-none" />
              {/* Right bowl content area - larger space */}
-             <div className="absolute inset-0 p-3 flex flex-wrap gap-1 items-end justify-center content-end pb-4 overflow-auto">
+             <div className="absolute inset-0 p-3 flex flex-wrap gap-1 items-end justify-center content-end pb-4">
               {children && (children as any)[1]}
              </div>
            </div>

@@ -13,7 +13,7 @@ export default function AppRoutes() {
 				<Route path="/case1" element={<Case1 />} />
 				<Route path="/case2" element={<Case2 />} />
 				<Route path="/case3" element={<Case3 />} />
-				{/* fallback to home for unknown routes */}
+				{/* fallback to home for unknown routes */}	
 				<Route path="*" element={<Index />} />
 			</Routes>
 		</Router>

@@ -69,7 +69,12 @@ export const DroppableArea = ({ items, onDrop, onRemove, side }: DroppableAreaPr
       {items.map((item, index) => (
         <div key={`${item.id}-${index}`} className="relative group">
           {item.type === "object" ? (
-            <div className="w-10 h-10 p-0.5 bg-transparent rounded-md flex items-center justify-center">
+            <div className={cn(
+              "w-10 h-10 p-0.5 bg-transparent rounded-md flex items-center justify-center",
+              item.id === "bag" && "scale-[200%]",
+              item.id === "cardboard" && "scale-[300%]",
+              item.id === "beef" && "scale-[200%]"
+            )}>
               <img src={item.image} alt={item.label || ""} className="w-full h-full object-contain" />
             </div>
           ) : (
