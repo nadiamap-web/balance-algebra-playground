@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { RotateCcw, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-// Case 3: ax+b=c (Packaged meat=2, Red beef=1)
+// Case 3: ax+b=c (Red beef=2, Packaged meat=1)
 const Case3 = () => {
   const navigate = useNavigate();
   const [leftItems, setLeftItems] = useState<DroppedItem[]>([]);
@@ -74,8 +74,8 @@ const Case3 = () => {
 
   const checkGuesses = () => {
     // Validate against known correct values for Case 3
-    const expectedPackaged = 2;
-    const expectedBeef = 1;
+    const expectedPackaged = 1; 
+    const expectedBeef = 2;    
     const packagedCorrect = typeof packagedGuess === 'number' && packagedGuess === expectedPackaged;
     const beefCorrect = typeof beefGuess === 'number' && beefGuess === expectedBeef;
     const correct = packagedCorrect && beefCorrect;
@@ -166,14 +166,14 @@ const Case3 = () => {
             <div className="flex gap-4 justify-center">
               <DraggableObject
                 id="packaged"
-                value={2}
+                value={1}               // changed: packaged = 1
                 image={packagedMeatImage}
                 label="Daging Mika"
                 onDragStart={() => {}}
               />
               <DraggableObject
                 id="beef"
-                value={1}
+                value={2}               // changed: beef = 2
                 image={redBeefImage}
                 label="Daging kantongan"
                 onDragStart={() => {}}
